@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}New Bed{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label for="top_left">Top left</label>
+  <input name="top_left" id="top_left" value="{{ request.form['top_left'] }}" required>
+  <label for="x_length">x length</label>
+  <input name="x_length" id="x_length" value="{{ request.form['x_length'] }}" required>
+  <label for="y_length">y length</label>
+  <input name="y_length" id="y_length" value="{{ request.form['y_length'] }}" required>
+  <input type="submit" value="Save">
+</form>
+{% endblock %}

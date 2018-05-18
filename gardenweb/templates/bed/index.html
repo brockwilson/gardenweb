@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Plans{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% for bed in beds %}
+<article class="bed">
+  <header>
+    <div>
+      id = {{ bed['id'] }},
+      top_left = {{ bed['top_left'] }},
+      x_length = {{ bed['x_length'] }},
+      y_length = {{ bed['y_length'] }},
+      <a href="{{ url_for('bed.update', id=bed['id']) }}">Update</a>
+    </div>
+  </header>
+</article>
+{% if not loop.last %}
+<hr>
+{% endif %}
+{% endfor%}
+{% endblock %}
