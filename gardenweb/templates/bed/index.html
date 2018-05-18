@@ -9,11 +9,11 @@
 <article class="bed">
   <header>
     <div>
-      id = {{ bed['id'] }},
-      top_left = {{ bed['top_left'] }},
-      x_length = {{ bed['x_length'] }},
-      y_length = {{ bed['y_length'] }},
-      <a href="{{ url_for('bed.update', id=bed['id']) }}">Update</a>,
+      id = {{ bed['id'] }}<br>
+      top_left = {{ bed['top_left'] }}<br>
+      x_length = {{ bed['x_length'] }}<br>
+      y_length = {{ bed['y_length'] }}<br>
+      <a href="{{ url_for('bed.update', id=bed['id']) }}">Update</a><br>
       <form action="{{ url_for('bed.delete', id=bed['id']) }}" method="post">
   <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
 </form>
