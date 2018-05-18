@@ -7,11 +7,11 @@
 {% block content %}
 <form method="post">
   <label for="top_left">Top left</label>
-  <input name="top_left" id="top_left" value="{{ request.form['top_left'] }}" required>
+  <input name="top_left" id="top_left" value="{{ request.form['top_left'] }}" required><br>
   <label for="x_length">x length</label>
-  <input name="x_length" id="x_length" value="{{ request.form['x_length'] }}" required>
+  <input name="x_length" id="x_length" value="{{ request.form['x_length'] }}" required><br>
   <label for="y_length">y length</label>
-  <input name="y_length" id="y_length" value="{{ request.form['y_length'] }}" required>
+  <input name="y_length" id="y_length" value="{{ request.form['y_length'] }}" required><br>
   <input type="submit" value="Save">
 </form>
 {% endblock %}

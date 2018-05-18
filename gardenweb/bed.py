@@ -22,24 +22,17 @@ def create():
         top_left = request.form['top_left']
         x_length = request.form['x_length']
         y_length = request.form['y_length']
-        error = None
-
-        if not top_left:
-            error = 'Top left of the bed is required.'
-
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                'INSERT INTO bed (top_left, x_length, y_length)'
-                ' VALUES (?, ?, ?)',
-                (top_left, x_length, y_length)
-            )
-            db.commit()
-            return redirect(url_for('bed.index'))
-
-    return render_template('bed/create.html')
+        
+        db = get_db()
+        db.execute(
+            'INSERT INTO bed (top_left, x_length, y_length)'
+            ' VALUES (?, ?, ?)',
+            (top_left, x_length, y_length)
+        )
+        db.commit()
+        return redirect(url_for('bed.index'))
+    else:
+        return render_template('bed/create.html')
 
 def get_bed(id):
     bed = get_db().execute(
