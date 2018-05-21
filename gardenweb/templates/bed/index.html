@@ -4,7 +4,12 @@
 <h1>{% block title %}Beds{% endblock %}</h1>
 {% endblock %}
 
+
+
 {% block content %}
+
+<img src="{{ url_for('static', filename='crap.svg') }}" >
+
 {% for bed in beds %}
 <article class="bed">
   <header>
