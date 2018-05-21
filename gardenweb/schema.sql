@@ -3,7 +3,8 @@ DROP TABLE IF EXISTS planting;
 
 CREATE TABLE bed (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
-       top_left REAL NOT NULL,
+       top_left_x REAL NOT NULL,
+       top_left_y REAL NOT NULL,
        x_length REAL NOT NULL,
        y_length REAL NOT NULL
        );
@@ -11,7 +12,8 @@ CREATE TABLE bed (
 CREATE TABLE planting (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
        bed_id INTEGER NOT NULL,
-       top_left REAL NOT NULL,
+       top_left_x REAL NOT NULL,
+       top_left_y REAL NOT NULL,
        x_length REAL NOT NULL,
        y_length REAL NOT NULL,
        plant_type TEXT NOT NULL,

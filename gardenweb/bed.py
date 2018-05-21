@@ -18,15 +18,16 @@ def index():
 @bp.route('/bed/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
-        top_left = request.form['top_left']
+        top_left_x = request.form['top_left_x']
+        top_left_y = request.form['top_left_y']
         x_length = request.form['x_length']
         y_length = request.form['y_length']
         
         db = get_db()
         db.execute(
-            'INSERT INTO bed (top_left, x_length, y_length)'
-            ' VALUES (?, ?, ?)',
-            (top_left, x_length, y_length)
+            'INSERT INTO bed (top_left_x, top_left_y, x_length, y_length)'
+            ' VALUES (?, ?, ?, ?)',
+            (top_left_x, top_left_y, x_length, y_length)
         )
         db.commit()
         return redirect(url_for('bed.index'))
@@ -36,14 +37,14 @@ def create():
 def get_beds():
     db = get_db()
     beds = db.execute(
-        'SELECT id, top_left, x_length, y_length'
+        'SELECT id, top_left_x, top_left_y, x_length, y_length'
         ' FROM bed'
     ).fetchall()
     return beds
     
 def get_bed(id):
     bed = get_db().execute(
-        'SELECT id, top_left, x_length, y_length'
+        'SELECT id, top_left_x, top_left_y, x_length, y_length'
         ' FROM bed'
         ' WHERE id = ?',
         (id,)
@@ -59,21 +60,22 @@ def update(id):
     bed = get_bed(id)
 
     if request.method == 'POST':
-        top_left = request.form['top_left']
+        top_left_x = request.form['top_left_x']
+        top_left_y = request.form['top_left_y']
         x_length = request.form['x_length']
         y_length = request.form['y_length']
         error = None
 
-        if not top_left:
-            error = 'Top left is required.'
+        if not top_left_x:
+            error = 'Top left x is required.'
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'UPDATE bed SET top_left = ?, x_length = ?, y_length = ?'
+                'UPDATE bed SET top_left_x = ?, top_left_y = ?, x_length = ?, y_length = ?'
                 ' WHERE id = ?',
-                (top_left, x_length, y_length, id)
+                (top_left_x, top_left_y, x_length, y_length, id)
             )
             db.commit()
             return redirect(url_for('bed.index'))
