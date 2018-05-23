@@ -12,8 +12,8 @@ bp = Blueprint('bed', __name__)
 def index():
     db = get_db()
     beds = get_beds()
-    svg = make_bed_svg_inline()
-    return render_template('bed/index.html', beds=beds, svg=svg)
+    make_bed_svg()
+    return render_template('bed/index.html', beds=beds)
 
 @bp.route('/bed/create', methods=('GET', 'POST'))
 def create():
