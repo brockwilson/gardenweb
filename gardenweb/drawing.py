@@ -4,7 +4,7 @@ import svgwrite
 import datetime
 
 pixels_per_foot = 50
-filename = "gardenweb/static/crap.svg"
+filename = "gardenweb/static/beds.svg"
 image_width = 2000
 image_height = 2000
 
@@ -37,11 +37,27 @@ def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0):
                                class_="bed")
     svg_handle.add(bed_rect)
 
+
+
 def make_bed_svg():
     dwg = svgwrite.Drawing(filename = filename,
                        size = calculate_bed_size()+(x_padding, y_padding))
+    dwg.add_stylesheet("beds.css","beds")
+    
     beds = gardenweb.bed.get_beds()
     for bed in beds:
         draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding)
     dwg.save()
     
+def make_bed_svg_inline():
+    total_string = '<svg width="%i" height="%i">'%calculate_bed_size()
+    beds = gardenweb.bed.get_beds()
+    for bed in beds:
+        total_string += '<rect class="bed"'
+        total_string += ('x="%i"'%(feet_to_pixels(bed['top_left_x'])+x_padding))
+        total_string += ('y="%i"'%(feet_to_pixels(bed['top_left_y'])+y_padding))
+        total_string += ('width="%i"'%feet_to_pixels(bed['x_length']))
+        total_string += ('height="%i"'%feet_to_pixels(bed['y_length']))
+        total_string += '/>'
+    total_string = total_string + '</svg>'
+    return total_string

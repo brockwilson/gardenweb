@@ -1,0 +1,18 @@
+rect.bed {
+    stroke:black;
+    stroke-width:5;
+    fill:white;    
+}
+
+text.planting {
+    font-size:25px;
+    font-family:Arial;
+    text-anchor:middle;
+}
+
+rect.planting {
+    stroke:green;
+    stroke-width:5;
+    fill:white;
+}
+

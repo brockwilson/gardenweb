@@ -4,7 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from gardenweb.db import get_db
-from gardenweb.drawing import make_bed_svg
+from gardenweb.drawing import make_bed_svg, make_bed_svg_inline
 
 bp = Blueprint('bed', __name__)
 
@@ -12,8 +12,8 @@ bp = Blueprint('bed', __name__)
 def index():
     db = get_db()
     beds = get_beds()
-    make_bed_svg()
-    return render_template('bed/index.html', beds=beds)
+    svg = make_bed_svg_inline()
+    return render_template('bed/index.html', beds=beds, svg=svg)
 
 @bp.route('/bed/create', methods=('GET', 'POST'))
 def create():

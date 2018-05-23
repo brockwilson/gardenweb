@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<img src="{{ url_for('static', filename='crap.svg') }}" >
+{{ svg|safe }}
 
 {% for bed in beds %}
 <article class="bed">
@@ -29,5 +29,5 @@
 {% if not loop.last %}
 <hr>
 {% endif %}
-{% endfor%}
+{% endfor %}
 {% endblock %}
