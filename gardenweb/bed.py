@@ -10,9 +10,7 @@ bp = Blueprint('bed', __name__)
 
 @bp.route('/')
 def index():
-    db = get_db()
     beds = get_beds()
-    make_bed_svg()
     return render_template('bed/index.html', beds=beds)
 
 @bp.route('/bed/create', methods=('GET', 'POST'))
@@ -30,6 +28,7 @@ def create():
             (top_left_x, top_left_y, x_length, y_length)
         )
         db.commit()
+        make_bed_svg()
         return redirect(url_for('bed.index'))
     else:
         return render_template('bed/create.html')
@@ -78,6 +77,7 @@ def update(id):
                 (top_left_x, top_left_y, x_length, y_length, id)
             )
             db.commit()
+            make_bed_svg()
             return redirect(url_for('bed.index'))
     return render_template('bed/update.html', bed=bed)
         
@@ -87,4 +87,5 @@ def delete(id):
     db = get_db()
     db.execute('DELETE FROM bed WHERE id = ?', (id,))
     db.commit()
+    make_bed_svg()
     return redirect(url_for('bed.index'))
