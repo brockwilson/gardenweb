@@ -1,6 +1,7 @@
 venv/
 
 gardenweb/static/beds.svg
+gardenweb/static/bed.svg
 
 *.pyc
 __pycache__/
