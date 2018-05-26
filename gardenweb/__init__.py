@@ -27,6 +27,9 @@ def create_app(test_config=None):
 
     from . import bed
     app.register_blueprint(bed.bp)
-    app.add_url_rule('/', endpoint='index')
+    
+
+    from . import planting
+    app.register_blueprint(planting.bp)
     
     return app

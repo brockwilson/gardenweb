@@ -18,8 +18,27 @@
       y_length = {{ bed['y_length'] }}<br>
       <a href="{{ url_for('bed.update', id=bed['id']) }}">Update</a><br>
       <form action="{{ url_for('bed.delete', id=bed['id']) }}" method="post">
-  <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+	<input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
 </form>
-    </div>
-
+</div>
+<h2>Plantings</h2>
+{% for planting in plantings %}
+<article class="planting">
+  <div>
+    id = {{ planting['id'] }}<br>
+    top_left_x = {{ planting['top_left_x'] }}<br>
+    top_left_y = {{ planting['top_left_y'] }}<br>
+    x_length = {{ planting['x_length'] }}<br>
+    y_length = {{ planting['y_length'] }}<br>
+    plant_type = {{ planting['plant_type'] }}<br>
+    date_planted = {{ planting['date_planted'] }}<br>
+    date_harvested = {{ planting['date_harvested'] }}<br>
+    <form action="{{ url_for('planting.delete', id=planting['id']) }}" method="post">
+      <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    <br>
+  </div>
+</article>
+{% endfor %}
+<hr>
+<a href="{{ url_for('planting.create', bed_id=bed['id']) }}">Create a planting</a>
 {% endblock %}

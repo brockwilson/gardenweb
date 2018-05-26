@@ -54,6 +54,16 @@ def get_bed(id):
 
     return bed
 
+def get_plantings(bed_id):
+    plantings = get_db().execute(
+        'SELECT id, bed_id, top_left_x, top_left_y, x_length, y_length, plant_type, date_planted, date_harvested'
+        ' FROM planting'
+        ' WHERE bed_id = ?',
+        (bed_id,)
+    ).fetchall()
+    return plantings
+
+
 @bp.route('/bed/<int:id>/update', methods=('GET', 'POST'))
 def update(id):
     bed = get_bed(id)
@@ -85,7 +95,8 @@ def update(id):
 def view(id):
     bed = get_bed(id)
     make_bed_svg(bed)
-    return render_template('bed/view.html', bed=bed)
+    plantings = get_plantings(id)
+    return render_template('bed/view.html', bed=bed, plantings=plantings)
 
 @bp.route('/bed/<int:id>/delete', methods=('POST',))
 def delete(id):
