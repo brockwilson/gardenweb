@@ -4,7 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from gardenweb.db import get_db
-from gardenweb.drawing import make_bed_svg, make_bed_svg_inline
+from gardenweb.drawing import make_beds_svg, make_bed_svg
 
 bp = Blueprint('bed', __name__)
 
@@ -28,7 +28,7 @@ def create():
             (top_left_x, top_left_y, x_length, y_length)
         )
         db.commit()
-        make_bed_svg()
+        make_beds_svg()
         return redirect(url_for('bed.index'))
     else:
         return render_template('bed/create.html')
@@ -77,15 +77,21 @@ def update(id):
                 (top_left_x, top_left_y, x_length, y_length, id)
             )
             db.commit()
-            make_bed_svg()
+            make_beds_svg()
             return redirect(url_for('bed.index'))
     return render_template('bed/update.html', bed=bed)
-        
+
+@bp.route('/bed/<int:id>/')
+def view(id):
+    bed = get_bed(id)
+    make_bed_svg(bed)
+    return render_template('bed/view.html', bed=bed)
+
 @bp.route('/bed/<int:id>/delete', methods=('POST',))
 def delete(id):
     get_bed(id)
     db = get_db()
     db.execute('DELETE FROM bed WHERE id = ?', (id,))
     db.commit()
-    make_bed_svg()
+    make_beds_svg()
     return redirect(url_for('bed.index'))

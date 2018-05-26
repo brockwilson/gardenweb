@@ -4,7 +4,8 @@ import svgwrite
 import datetime
 
 pixels_per_foot = 50
-filename = "gardenweb/static/beds.svg"
+beds_filename = "gardenweb/static/beds.svg"
+bed_filename = "gardenweb/static/bed.svg"
 image_width = 2000
 image_height = 2000
 
@@ -17,21 +18,20 @@ def feet_to_pixels(feet):
 def pixels_to_feet(pixels):
     return pixels/pixels_per_foot
 
-def calculate_bed_size():
+def calculate_beds_size(beds, zero_top_left = False):
     min_x = 0
     min_y = 0
     max_x = 0
     max_y = 0
-    beds = gardenweb.bed.get_beds()
     for bed in beds:
-        max_x = max(max_x, bed['top_left_x'] + bed['x_length'])
-        max_y = max(max_y, bed['top_left_y'] + bed['y_length'])
+        max_x = max(max_x, (0 if zero_top_left else bed['top_left_x']) + bed['x_length'])
+        max_y = max(max_y, (0 if zero_top_left else bed['top_left_y']) + bed['y_length'])
     return (feet_to_pixels(max_x-min_x) + 2*x_padding,
             feet_to_pixels(max_y-min_y) + 2*y_padding)
 
-def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0):
-    bed_rect = svg_handle.rect(insert = (x_padding+feet_to_pixels(bed['top_left_x']),
-                                         y_padding+feet_to_pixels(bed['top_left_y'])),
+def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0, zero_top_left = False):
+    bed_rect = svg_handle.rect(insert = (x_padding+feet_to_pixels((0 if zero_top_left else bed['top_left_x'])),
+                                         y_padding+feet_to_pixels((0 if zero_top_left else bed['top_left_y']))),
                                size = (feet_to_pixels(bed['x_length']),
                                        feet_to_pixels(bed['y_length'])),
                                class_="bed")
@@ -39,25 +39,19 @@ def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0):
 
 
 
-def make_bed_svg():
-    dwg = svgwrite.Drawing(filename = filename,
-                       size = calculate_bed_size()+(x_padding, y_padding))
-    dwg.add_stylesheet("beds.css","beds")
-    
+def make_beds_svg():
     beds = gardenweb.bed.get_beds()
+    dwg = svgwrite.Drawing(filename = beds_filename,
+                           size = calculate_beds_size(beds)+(x_padding, y_padding))
+    dwg.add_stylesheet("beds.css","beds")
     for bed in beds:
         draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding)
     dwg.save()
+
+def make_bed_svg(bed):
+    dwg = svgwrite.Drawing(filename = bed_filename,
+                           size = calculate_beds_size([bed], zero_top_left = True)+ (x_padding, y_padding))
+    dwg.add_stylesheet("beds.css", "beds")
+    draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding, zero_top_left = True)
+    dwg.save()
     
-def make_bed_svg_inline():
-    total_string = '<svg width="%i" height="%i">'%calculate_bed_size()
-    beds = gardenweb.bed.get_beds()
-    for bed in beds:
-        total_string += '<rect class="bed"'
-        total_string += ('x="%i"'%(feet_to_pixels(bed['top_left_x'])+x_padding))
-        total_string += ('y="%i"'%(feet_to_pixels(bed['top_left_y'])+y_padding))
-        total_string += ('width="%i"'%feet_to_pixels(bed['x_length']))
-        total_string += ('height="%i"'%feet_to_pixels(bed['y_length']))
-        total_string += '/>'
-    total_string = total_string + '</svg>'
-    return total_string

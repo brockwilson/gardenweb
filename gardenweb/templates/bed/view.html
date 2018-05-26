@@ -1,34 +1,25 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Beds{% endblock %}</h1>
+<h1>{% block title %}Bed {{ bed['id'] }}{% endblock %}</h1>
 {% endblock %}
 
 
 
 {% block content %}
 
-<object type="image/svg+xml" data="/static/beds.svg?xxx={{ range(1, 10000)|random }}"></object>
+<object type="image/svg+xml" data="/static/bed.svg?xxx={{ range(1, 10000)|random }}"></object>
 
-{% for bed in beds %}
-<article class="bed">
-  <header>
-    <div>
+<div>
       id = {{ bed['id'] }}<br>
       top_left_x = {{ bed['top_left_x'] }}<br>
       top_left_y = {{ bed['top_left_y'] }}<br>
       x_length = {{ bed['x_length'] }}<br>
       y_length = {{ bed['y_length'] }}<br>
-      <a href="{{ url_for('bed.view', id=bed['id']) }}">View</a><br>
       <a href="{{ url_for('bed.update', id=bed['id']) }}">Update</a><br>
       <form action="{{ url_for('bed.delete', id=bed['id']) }}" method="post">
   <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
 </form>
     </div>
-  </header>
-</article>
-{% if not loop.last %}
-<hr>
-{% endif %}
-{% endfor %}
+
 {% endblock %}
