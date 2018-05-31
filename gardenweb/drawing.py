@@ -35,6 +35,8 @@ def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0, zero_top_left = Fals
                                size = (feet_to_pixels(bed['x_length']),
                                        feet_to_pixels(bed['y_length'])),
                                class_="bed")
+    # get the plantings
+    # draw the plantings
     svg_handle.add(bed_rect)
 
 
