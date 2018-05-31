@@ -1,4 +1,4 @@
-from gardenweb.db import get_db
+from gardenweb.db import get_beds, get_plantings
 import gardenweb.bed
 import svgwrite
 import datetime
@@ -30,24 +30,52 @@ def calculate_beds_size(beds, zero_top_left = False):
             feet_to_pixels(max_y-min_y) + 2*y_padding)
 
 def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0, zero_top_left = False):
+    bed_group = svg_handle.g(class_ = "bed")
     bed_rect = svg_handle.rect(insert = (x_padding+feet_to_pixels((0 if zero_top_left else bed['top_left_x'])),
                                          y_padding+feet_to_pixels((0 if zero_top_left else bed['top_left_y']))),
                                size = (feet_to_pixels(bed['x_length']),
                                        feet_to_pixels(bed['y_length'])),
                                class_="bed")
-    # get the plantings
-    # draw the plantings
-    svg_handle.add(bed_rect)
+    bed_group.add(bed_rect)
+    svg_handle.add(bed_group)
+    plantings = get_plantings(bed['id'])
+    # raise Exception('I am here!')
+    for planting in plantings:
+        draw_planting(bed, planting, svg_handle, x_padding, y_padding, zero_top_left)
+    return None
+
+def draw_planting(bed, planting, svg_handle, x_padding = 0, y_padding = 0, zero_top_left = False):
+    if zero_top_left:
+        top_left_x = planting['top_left_x']
+        top_left_y = planting['top_left_y']
+    else:
+        top_left_x = bed['top_left_x'] + planting['top_left_x']
+        top_left_y = bed['top_left_y'] + planting['top_left_y']
+        
+    planting_group = svg_handle.g(class_="planting")
+    planting_rect = svg_handle.rect(insert = (x_padding+feet_to_pixels(top_left_x),
+                                              y_padding+feet_to_pixels(top_left_y)),
+                                    size = (feet_to_pixels(planting['x_length']),
+                                            feet_to_pixels(planting['y_length'])),
+                                    class_="planting")
+    text_handle = svg_handle.text(planting['plant_type'],
+                                  insert = (x_padding + feet_to_pixels(top_left_x + planting['x_length']/2),
+                                            y_padding + feet_to_pixels(top_left_y + planting['y_length']/2)),
+                                  class_="planting")
+    planting_group.add(planting_rect)
+    planting_group.add(text_handle)
+    svg_handle.add(planting_group)
+    return None
 
 
 
 def make_beds_svg():
-    beds = gardenweb.bed.get_beds()
+    beds = get_beds()
     dwg = svgwrite.Drawing(filename = beds_filename,
                            size = calculate_beds_size(beds)+(x_padding, y_padding))
     dwg.add_stylesheet("beds.css","beds")
     for bed in beds:
-        draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding)
+        draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding, zero_top_left = False)
     dwg.save()
 
 def make_bed_svg(bed):

@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from gardenweb.db import get_db
-
+from gardenweb.drawing import make_beds_svg, make_bed_svg
 
 bp = Blueprint('planting', __name__)
 
@@ -25,6 +25,7 @@ def create(bed_id):
             (bed_id, top_left_x, top_left_y, x_length, y_length, plant_type, date_planted, date_harvested)
         )
         db.commit()
+        make_beds_svg()
         return redirect(url_for('bed.view', id = bed_id))
     else:
         g.bed_id = bed_id
