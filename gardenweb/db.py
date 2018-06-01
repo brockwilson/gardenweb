@@ -82,6 +82,16 @@ def delete_bed(bed_id):
     db.commit()
     return None
 
+def create_planting(planting):
+    db = get_db()
+    db.execute(
+        'INSERT INTO planting (bed_id, top_left_x, top_left_y, x_length, y_length, plant_type, date_planted, date_harvested)'
+        ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        (planting['bed_id'], planting['top_left_x'], planting['top_left_y'], planting['x_length'], planting['y_length'], planting['plant_type'], planting['date_planted'], planting['date_harvested'])
+    )
+    db.commit()
+    return None
+
 def get_plantings(bed_id):
     plantings = get_db().execute(
         'SELECT id, bed_id, top_left_x, top_left_y, x_length, y_length, plant_type, date_planted, date_harvested'
@@ -90,3 +100,18 @@ def get_plantings(bed_id):
         (bed_id,)
     ).fetchall()
     return plantings
+
+def get_planting(planting_id):
+    planting = get_db().execute(
+        'SELECT id, bed_id, top_left_x, top_left_y, x_length, y_length, plant_type, date_planted, date_harvested'
+        ' FROM planting'
+        ' WHERE id = ?',
+        (planting_id,)
+    ).fetchone()
+    return planting
+
+def delete_planting(planting_id):
+    db = get_db()
+    db.execute('DELETE FROM planting WHERE id = ?', (planting_id,))
+    db.commit()
+    return None
