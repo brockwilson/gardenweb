@@ -38,8 +38,10 @@ def draw_bed(bed, svg_handle, x_padding = 0, y_padding = 0, zero_top_left = Fals
                                class_="bed")
     bed_group.add(bed_rect)
     svg_handle.add(bed_group)
+    return None
+
+def draw_bed_plantings(bed, svg_handle, x_padding = 0, y_padding = 0, zero_top_left = False):
     plantings = get_plantings(bed['id'])
-    # raise Exception('I am here!')
     for planting in plantings:
         draw_planting(bed, planting, svg_handle, x_padding, y_padding, zero_top_left)
     return None
@@ -76,12 +78,17 @@ def make_beds_svg():
     dwg.add_stylesheet("beds.css","beds")
     for bed in beds:
         draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding, zero_top_left = False)
+    for bed in beds:
+        draw_bed_plantings(bed, dwg, x_padding, y_padding, zero_top_left=False)
     dwg.save()
+    return None
 
 def make_bed_svg(bed):
     dwg = svgwrite.Drawing(filename = bed_filename,
                            size = calculate_beds_size([bed], zero_top_left = True)+ (x_padding, y_padding))
     dwg.add_stylesheet("beds.css", "beds")
     draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding, zero_top_left = True)
+    draw_bed_plantings(bed, dwg, x_padding, y_padding, zero_top_left=True)
     dwg.save()
+    return None
     
