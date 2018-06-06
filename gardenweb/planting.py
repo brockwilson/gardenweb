@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from gardenweb.db import create_planting, get_planting, delete_planting
-from gardenweb.drawing import make_beds_svg, make_bed_svg
+from gardenweb.drawing import make_beds_svg, make_bed_svg, make_planting_svg
 
 bp = Blueprint('planting', __name__)
 
@@ -24,6 +24,11 @@ def create(bed_id):
         return redirect(url_for('bed.view', id = bed_id))
     else:
         return render_template('planting/create.html')
+@bp.route('/bed/<int:bed_id>/planting/<int:planting_id>/')
+def view(bed_id, planting_id):
+    planting = get_planting(planting_id)
+    make_planting_svg(planting)
+    return render_template('planting/view.html', planting=planting)
 
 
 @bp.route('/planting/<int:id>/delete', methods=('POST',))

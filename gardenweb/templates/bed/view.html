@@ -33,6 +33,7 @@
     plant_type = {{ planting['plant_type'] }}<br>
     date_planted = {{ planting['date_planted'] }}<br>
     date_harvested = {{ planting['date_harvested'] }}<br>
+    <a href="{{ url_for('planting.view', bed_id=bed['id'], planting_id=planting['id']) }}">View</a><br>
     <form action="{{ url_for('planting.delete', id=planting['id']) }}" method="post">
       <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
     <br>

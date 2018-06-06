@@ -6,6 +6,7 @@ import datetime
 pixels_per_foot = 50
 beds_filename = "gardenweb/static/beds.svg"
 bed_filename = "gardenweb/static/bed.svg"
+planting_filename = "gardenweb/static/planting.svg"
 image_width = 2000
 image_height = 2000
 
@@ -69,8 +70,6 @@ def draw_planting(bed, planting, svg_handle, x_padding = 0, y_padding = 0, zero_
     svg_handle.add(planting_group)
     return None
 
-
-
 def make_beds_svg():
     beds = get_beds()
     dwg = svgwrite.Drawing(filename = beds_filename,
@@ -89,6 +88,14 @@ def make_bed_svg(bed):
     dwg.add_stylesheet("beds.css", "beds")
     draw_bed(bed, dwg, x_padding = x_padding, y_padding = y_padding, zero_top_left = True)
     draw_bed_plantings(bed, dwg, x_padding, y_padding, zero_top_left=True)
+    dwg.save()
+    return None
+    
+def make_planting_svg(planting):
+    dwg = svgwrite.Drawing(filename = planting_filename,
+                           size = (feet_to_pixels(planting['x_length'])+2*x_padding, feet_to_pixels(planting['y_length'])+2*y_padding))
+    dwg.add_stylesheet("beds.css", "beds")
+    draw_planting(None, planting, dwg, x_padding, y_padding, True)
     dwg.save()
     return None
     

@@ -2,6 +2,7 @@ venv/
 
 gardenweb/static/beds.svg
 gardenweb/static/bed.svg
+gardenweb/static/planting.svg
 
 *.pyc
 __pycache__/

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Planting {{ planting['id'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<object type="image/svg+xml" data="/static/planting.svg?xxx={{ range(1, 10000) }}"></object>
+
+<div>
+  id = {{ planting['id'] }}<br>
+  top_left_x = {{ planting['top_left_x'] }}<br>
+  top_left_y = {{ planting['top_left_y'] }}<br>
+  
+</div>
+{% endblock %}
