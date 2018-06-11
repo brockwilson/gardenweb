@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Update planting {{ planting['id'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label for="top_left_x">Top left x</label>
+  <input name="top_left_x" id="top_left_x" value="{{ planting['top_left_x'] }}" required>
+  <br>
+  <label for="top_left_y">Top left y</label>
+  <input name="top_left_y" id="top_left_y" value="{{ planting['top_left_y'] }}" required>
+  <br>
+  <label for="x_length">x length</label>
+  <input name="x_length" id="x_length" value="{{ planting['x_length'] }}" required>
+  <br>
+  <label for="y_length">y length</label>
+  <input name="y_length" id="y_length" value="{{ planting['y_length'] }}" required>
+  <br>
+  <label for="plant_type">plant_type</label>
+  <input name="plant_type" id="plant_type" value="{{ planting['plant_type'] }}" required>
+  <br>
+  <label for="date_planted">date_planted</label>
+  <input name="date_planted" id="date_planted" value="{{ planting['date_planted'] }}" required>
+  <br>
+  <label for="date_harvested">date_harvested</label>
+  <input name="date_harvested" id="date_harvested" value="{{ planting['date_harvested'] }}" required>
+  <br>
+  <input type="submit" value="Save">
+</form>
+<hr>
+<form action="{{ url_for('planting.delete', id=planting['id']) }}" method="post">
+  <input class="danger" type="submit" value="Delete planting {{ planting['id'] }}" onclick="return confirm('Are you sure?');">
+</form>
+{% endblock %}

@@ -110,6 +110,16 @@ def get_planting(planting_id):
     ).fetchone()
     return planting
 
+def update_planting(planting):
+    db = get_db()
+    db.execute(
+        'UPDATE planting SET top_left_x = ?, top_left_y = ?, x_length = ?, y_length = ?, plant_type = ?, date_planted = ?, date_harvested = ?'
+        ' WHERE id = ?',
+        (planting['top_left_x'], planting['top_left_y'], planting['x_length'], planting['y_length'], planting['plant_type'], planting['date_planted'], planting['date_harvested'], planting['id'])
+    )
+    db.commit()
+    return None
+
 def delete_planting(planting_id):
     db = get_db()
     db.execute('DELETE FROM planting WHERE id = ?', (planting_id,))

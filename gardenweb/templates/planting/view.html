@@ -2,6 +2,9 @@
 
 {% block header %}
 <h1>{% block title %}Planting {{ planting['id'] }}{% endblock %}</h1>
+<ul>
+  <li><a href={{ url_for('bed.view', id=planting['bed_id']) }}>View parent bed</a></li>
+</ul>
 {% endblock %}
 
 {% block content %}
@@ -11,6 +14,10 @@
   id = {{ planting['id'] }}<br>
   top_left_x = {{ planting['top_left_x'] }}<br>
   top_left_y = {{ planting['top_left_y'] }}<br>
-  
 </div>
+<a href="{{ url_for('planting.update', bed_id=planting['bed_id'], planting_id=planting['id']) }}">Update</a>
+<form action="{{ url_for('planting.delete', id=planting['id']) }}" method="post">
+      <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+</form>
+
 {% endblock %}

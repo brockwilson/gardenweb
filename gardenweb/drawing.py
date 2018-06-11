@@ -65,6 +65,7 @@ def draw_planting(bed, planting, svg_handle, x_padding = 0, y_padding = 0, zero_
                                   insert = (x_padding + feet_to_pixels(top_left_x + planting['x_length']/2),
                                             y_padding + feet_to_pixels(top_left_y + planting['y_length']/2)),
                                   class_="planting")
+    
     planting_group.add(planting_rect)
     planting_group.add(text_handle)
     svg_handle.add(planting_group)

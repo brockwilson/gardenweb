@@ -3,15 +3,17 @@
 <nav>
   <h1>Gardenweb</h1>
   <ul>
-    <li><a href="{{ url_for('bed.create') }}">Create a bed</a></li>
+    <li><a href="/">View the beds</a></li>
   </ul>
 </nav>
 <section class="content">
   <header>
-    {% block header %}{% endblock %}
+    {% block header %}
+    {% endblock %}
   </header>
   {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
   {% endfor %}
-  {% block content %}{% endblock %}
+  {% block content %}
+  {% endblock %}
 </section>

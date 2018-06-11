@@ -2,9 +2,10 @@
 
 {% block header %}
 <h1>{% block title %}Beds{% endblock %}</h1>
+<ul>
+  <li><a href="{{ url_for('bed.create') }}">Create a bed</a></li>
+</ul>
 {% endblock %}
-
-
 
 {% block content %}
 
@@ -22,8 +23,8 @@
       <a href="{{ url_for('bed.view', id=bed['id']) }}">View</a><br>
       <a href="{{ url_for('bed.update', id=bed['id']) }}">Update</a><br>
       <form action="{{ url_for('bed.delete', id=bed['id']) }}" method="post">
-  <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-</form>
+	<input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+      </form>
     </div>
   </header>
 </article>

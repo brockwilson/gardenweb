@@ -27,6 +27,12 @@ def create():
     else:
         return render_template('bed/create.html')
 
+@bp.route('/bed/<int:id>/')
+def view(id):
+    bed = get_bed(id)
+    make_bed_svg(bed)
+    plantings = get_plantings(id)
+    return render_template('bed/view.html', bed=bed, plantings=plantings)
     
 @bp.route('/bed/<int:id>/update', methods=('GET', 'POST'))
 def update(id):
@@ -43,13 +49,6 @@ def update(id):
     else:
         bed = get_bed(id)
         return render_template('bed/update.html', bed=bed)
-
-@bp.route('/bed/<int:id>/')
-def view(id):
-    bed = get_bed(id)
-    make_bed_svg(bed)
-    plantings = get_plantings(id)
-    return render_template('bed/view.html', bed=bed, plantings=plantings)
 
 @bp.route('/bed/<int:id>/delete', methods=('POST',))
 def delete(id):
